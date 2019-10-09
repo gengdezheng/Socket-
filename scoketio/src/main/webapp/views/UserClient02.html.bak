@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="msg"></div>
+<input type="text" class="type" placeholder="通知类型"/>
+<input type="text" class="targetClientIds" placeholder="目标客户端">
+<input type="text" class="data" placeholder="内容">
+<button class="click"> click</button>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js"></script>
+<script>
+    var socket = io.connect("http://localhost:8888?type=test2&name=geng2&controlRoomId=002");
+
+    socket.on('connect', function() {
+        $('.msg').text("连接成功！");
+    });
+
+    socket.on('message', function(data) {
+        alert(JSON.stringify(data));
+    });
+
+    $('.click').click(function(){
+        var _list = [];
+        var list=$('.targetClientIds').val();
+        _list=list.split(",");
+        socket.emit('message', {
+            type:$('.type').val(),
+            targetClientIds:_list,
+            data : {
+                'data':$('.data').val()
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>

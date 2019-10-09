@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="msg"></div>
+<input type="text" class="targetUser" placeholder="目标用户">
+<input type="text" class="data" placeholder="内容">
+<button class="click"> click</button>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js"></script>
+<script>
+    var socket = io.connect("http://localhost:8858?sessionId=0020&username=geng02");
+
+    socket.on('connect', function() {
+        $('.msg').text("连接成功！");
+    });
+
+    socket.on('message', function(data) {
+        alert(JSON.stringify(data));
+    });
+
+    $('.click').click(function(){
+        var _list = [];
+        var list=$('.targetUser').val();
+        _list=list.split(",");
+        socket.emit('message', {
+    
+           targetClientUserName:_list,
+            data : {
+                'data':$('.data').val()
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>

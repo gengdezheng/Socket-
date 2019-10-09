@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title3</title>
+</head>
+<body>
+<div class="msg"></div>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js"></script>
+<script>
+    var socket = io.connect("http://localhost:8848?type=test3&name=geng3&controlRoomId=003");
+
+    socket.on('connect', function() {
+        $('.msg').text("连接服务器成功!  ");
+    });
+
+    socket.on('message', function(data) {
+        alert(JSON.stringify(data));
+    });
+
+    socket.on('disconnect', function () {
+        $('.msg').text("断开连接!  ");
+    });
+
+
+</script>
+</body>
+</html>
